@@ -99,6 +99,11 @@ public static class AnsiRendererExtendedExtensions
         }
     }
 
+    public static void LineBarille(this AnsiRendererExtended renderer, Vector3 a, Vector3 b, AnsiColor color)
+    {
+        LineBarille(renderer, new Vector2(a.X, a.Y), new Vector2(a.Y, a.Y), color);
+    }
+
     public static void LineBarille(this AnsiRendererExtended renderer, Vector2 a, Vector2 b, AnsiColor color)
     {
         a *= new Vector2(2, 4);
@@ -240,4 +245,17 @@ public static class AnsiRendererExtendedExtensions
 
     #endregion
 
+    #region Text
+
+    public static void Text(this AnsiRendererExtended renderer, Vector2Int p, string text, AnsiColor color)
+    {
+        for (int i = 0; i < text.Length; i++)
+        {
+            int x = p.X + i;
+            if (x < 0 || x >= renderer.Width) continue;
+            renderer[x, p.Y] = new AnsiChar(text[i], color);
+        }
+    }
+
+    #endregion
 }
