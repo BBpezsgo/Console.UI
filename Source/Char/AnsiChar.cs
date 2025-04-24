@@ -3,10 +3,15 @@ using System;
 namespace CLI;
 
 public struct AnsiChar :
+    IChar<AnsiColor>,
     IEquatable<AnsiChar>,
     IEquatable<char>
 {
-    public static AnsiChar Empty => new(' ', AnsiColor.Black, AnsiColor.Black);
+    public static readonly AnsiChar Empty = new(' ', AnsiColor.Black, AnsiColor.Black);
+
+    readonly AnsiColor IChar<AnsiColor>.Foreground => Foreground;
+    readonly AnsiColor IChar<AnsiColor>.Background => Background;
+    readonly char IChar.Char => Char;
 
     public char Char;
     public AnsiColor Foreground;

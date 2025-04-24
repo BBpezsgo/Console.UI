@@ -6,7 +6,7 @@ namespace CLI;
 
 public class AnsiBuilder
 {
-    readonly StringBuilder Builder;
+    public readonly StringBuilder Builder;
 
     public int Length
     {
@@ -227,15 +227,6 @@ public class AnsiBuilder
 
     #endregion
 
-    public void SetForegroundColor(AnsiColor color)
-    {
-        if (color == currentFgColor) return;
-        Ansi.SetForegroundColor(Builder, color);
-    }
-    public void SetBackgroundColor(AnsiColor color)
-    {
-        if (color == currentBgColor) return;
-        Ansi.SetBackgroundColor(Builder, color);
-    }
-    public void SetGraphics(uint mode) => Ansi.SetGraphics(Builder, mode);
+    public void SetGraphics(int mode) => Ansi.SetGraphics(Builder, mode);
+    public void SetGraphics(params ReadOnlySpan<int> mode) => Ansi.SetGraphics(Builder, mode);
 }

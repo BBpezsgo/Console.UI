@@ -18,4 +18,7 @@ public enum AnsiColor : byte
     BrightMagenta = 13,
     BrightCyan = 14,
     BrightWhite = 15,
+
+    Silver = White,
+    Gray = BrightBlack,
 }

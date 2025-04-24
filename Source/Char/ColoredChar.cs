@@ -3,10 +3,15 @@ using System;
 namespace CLI;
 
 public struct ColoredChar :
+    IChar<RGB>,
     IEquatable<ColoredChar>,
     IEquatable<char>
 {
-    public static ColoredChar Empty => new(' ', default, default);
+    public static readonly ColoredChar Empty = new(' ', default, default);
+
+    readonly RGB IChar<RGB>.Foreground => Foreground;
+    readonly RGB IChar<RGB>.Background => Background;
+    readonly char IChar.Char => Char;
 
     public char Char;
     public RGB Foreground;

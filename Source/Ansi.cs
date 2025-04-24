@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System;
+using System.Text;
 
 namespace CLI;
 
@@ -244,6 +245,31 @@ public static class Ansi
         return (byte)(((color - 8) * 24 / 247) + 232);
     }
 
+    public static AnsiColor FromGraphicsMode(int graphicsMode)
+    {
+        if (graphicsMode >= 30 && graphicsMode <= 37)
+        {
+            return (AnsiColor)(graphicsMode - 30);
+        }
+
+        if (graphicsMode >= 40 && graphicsMode <= 47)
+        {
+            return (AnsiColor)(graphicsMode - 40 + 8);
+        }
+
+        if (graphicsMode >= 90 && graphicsMode <= 97)
+        {
+            return (AnsiColor)(graphicsMode - 90);
+        }
+
+        if (graphicsMode >= 100 && graphicsMode <= 107)
+        {
+            return (AnsiColor)(graphicsMode - 100 + 8);
+        }
+
+        throw new ArgumentException($"Invalid graphics mode {graphicsMode}", nameof(graphicsMode));
+    }
+
     /// <summary>
     /// Source: <see href=""="https://stackoverflow.com/a/26665998"/>
     /// </summary>
@@ -304,11 +330,23 @@ public static class Ansi
 
         return builder;
     }
-    public static StringBuilder SetGraphics(StringBuilder builder, params uint[] modes)
+    public static StringBuilder SetGraphics(StringBuilder builder, params int[] modes)
     {
         builder.Append(ESC);
         builder.Append(CSI);
         builder.AppendJoin(';', modes);
+        builder.Append('m');
+        return builder;
+    }
+    public static StringBuilder SetGraphics(StringBuilder builder, params ReadOnlySpan<int> modes)
+    {
+        builder.Append(ESC);
+        builder.Append(CSI);
+        for (int i = 0; i < modes.Length; i++)
+        {
+            if (i > 0) builder.Append(';');
+            builder.Append(modes[i]);
+        }
         builder.Append('m');
         return builder;
     }

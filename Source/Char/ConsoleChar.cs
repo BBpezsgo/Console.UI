@@ -3,10 +3,15 @@ using System;
 namespace CLI;
 
 public struct ConsoleChar :
+    IChar<ConsoleColor>,
     IEquatable<ConsoleChar>,
     IEquatable<char>
 {
-    public static ConsoleChar Empty => new(' ', ConsoleColor.Black, ConsoleColor.Black);
+    public static readonly ConsoleChar Empty = new(' ', ConsoleColor.Black, ConsoleColor.Black);
+
+    readonly ConsoleColor IChar<ConsoleColor>.Foreground => Foreground;
+    readonly ConsoleColor IChar<ConsoleColor>.Background => Background;
+    readonly char IChar.Char => Char;
 
     public char Char;
     public ConsoleColor Foreground;
